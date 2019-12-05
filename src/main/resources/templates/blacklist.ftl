@@ -14,16 +14,16 @@
 			<th scope="col">Remove/Add to blacklist</th>
 		</tr>
 	</thead>
-	<tbody>
-	   <#list users as user> 
-		  	<tr>
+	<tbody id="usersList">
+	   <#list users as user>  
+		  	<tr id="userRow" data-id="${user?counter}">
 		      	<th scope="row">${user?counter}</th>
 	      		<td><#if user.username?has_content>${user.username}<#else>null</#if></td>
       			<td><#if user.name?has_content>${user.name}<#else>null</#if></td>
       			<td><#if user.surname?has_content>${user.surname}<#else>null</#if></td>
       			<td><#if user.id?has_content>${user.id}<#else>null</#if></td>
       			<td><#if user.country?has_content>${user.country}<#else>null</#if></td>
-				<td><#if user.inBlacklist?has_content>${user.inBlacklist?c}<#else>null</#if></td>
+				<td id="inBlacklist"><#if user.inBlacklist?has_content>${user.inBlacklist?c}<#else>null</#if></td>
 				<td>
 					 <form 
 				   		action="/blacklist"

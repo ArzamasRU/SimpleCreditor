@@ -41,12 +41,12 @@
 				<th scope="col">Remove limit</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="limitsList">
 		   <#list limits as limit>
-			   <tr>
+			   <tr id="limitRow" data-id="${limit?counter}">
 			      	<th scope="row">${limit?counter}</th>
-	      			<td><#if limit.country?has_content>${limit.country}<#else>null</#if></td>
-	      			<td><#if limit.limit?has_content>${limit.limit}<#else>null</#if></td>
+	      			<td id="country"><#if limit.country?has_content>${limit.country}<#else>null</#if></td>
+	      			<td id="limit"><#if limit.limit?has_content>${limit.limit}<#else>null</#if></td>
 					<td> 
 						<form 
 					  		action="/limits"
@@ -59,10 +59,6 @@
 								type="hidden"
 								name="country"
 								value="${limit.country}" />	
-							<input
-								type="hidden"
-								name="limit"
-								value="${limit.limit}" />
 								
 							<button
 								type="submit"
