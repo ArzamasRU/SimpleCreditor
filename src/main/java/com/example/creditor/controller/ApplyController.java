@@ -24,7 +24,7 @@ import com.example.creditor.repos.RequestRepo;
 @Controller
 @RequestMapping("/apply")
 public class ApplyController {
-	static final long ONE_MINUTE_IN_MILLIS = 60000; //millisecs
+	public static final long ONE_MINUTE_IN_MILLIS = 60000; //millisecs
 
 	@Autowired
 	private RequestRepo requestRepo;
@@ -58,12 +58,12 @@ public class ApplyController {
 		return "apply";
 	}
 
-	private long getDifferenceDays(Date d1, Date d2) {
+	public long getDifferenceDays(Date d1, Date d2) {
 		long diff = d2.getTime() - d1.getTime();
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
-	private String checkTerms(long days, Double summ) {
+	public String checkTerms(long days, Double summ) {
 		if (days < 0 || summ > 1_000_000_000) {
 			return "Invalid conditions!";
 		} else if (days > 365 * 30) {
@@ -82,7 +82,7 @@ public class ApplyController {
 	//			return "";
 	//	}
 
-	private String checkLimit(User user, Date date) {
+	public String checkLimit(User user, Date date) {
 		String country = user.getCountry();
 		CountryLimit countryLimit = countryLimitRepo.findByCountry(country);
 		Date limitStartingPoint = new Date(date.getTime() - ONE_MINUTE_IN_MILLIS);
@@ -94,7 +94,7 @@ public class ApplyController {
 			return "";
 	}
 
-	private String checkBlacklist(User user) {
+	public String checkBlacklist(User user) {
 		if (user.isInBlacklist())
 			return "User in blacklist!";
 		else

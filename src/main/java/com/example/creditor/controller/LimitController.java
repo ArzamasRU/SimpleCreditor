@@ -38,6 +38,7 @@ public class LimitController {
 				model.addAttribute("message", "Limit created");
 			} else if (countryLimit.getLimit() != limit) {
 				countryLimit.setLimit(limit);
+				countryLimitRepo.save(countryLimit);
 				model.addAttribute("message", "Limit changed");
 			}
 		}

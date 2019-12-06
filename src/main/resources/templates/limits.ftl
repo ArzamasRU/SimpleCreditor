@@ -1,35 +1,35 @@
 <#import "elements/environment.ftl" as macros> 
 
 <@macros.environment> 
-<div class="form-row mt-5 mb-5">
-<!-- 	<label class="col-sm-2 col-form-label">Set new limit for country:</label> -->
-	<label class="col-sm-4 col-form-label">Set new limit of requests per minute for country:</label>
-		<form
-			method="post"
-			action="/limits"
-			class="form-inline">
+<form
+	method="post"
+	action="/limits"
+	class="form-inline">
+	<div class="form-row mt-5 mb-5">
+	<!-- 	<label class="col-sm-2 col-form-label">Set new limit for country:</label> -->
+		<label class="col-sm-5.5 col-form-label">Set new requests limit per minute for country:</label>
 			<input
 				type="hidden"
 				name="_csrf"
 				value="${_csrf.token}" />
-			<div class="col-sm-4">
+			<div class="col-sm">
 				<#include "elements/selectCountry.ftl">
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm">
 				<input 
 					type="text"
 					name="limit"
 					class="form-control"
 					placeholder="limit of requests" />
 			</div>
-			<div class="col-sm-4">
-			<button
-				type="submit"
-				class="btn btn-primary"
-				name="setLimit">Set</button>
+			<div class="col-sm">
+				<button
+					type="submit"
+					class="btn btn-primary"
+					name="setLimit">Set</button>
 			</div>
-		</form>
-</div>
+	</div>
+</form>
 
 <#if limits??>
 	<table class="table">

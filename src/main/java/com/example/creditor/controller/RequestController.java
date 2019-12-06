@@ -21,19 +21,19 @@ public class RequestController {
 	private RequestRepo requestRepo;
 
 	@GetMapping()
-	public String sort(@AuthenticationPrincipal User user,
-			@RequestParam(required = false, defaultValue = "") String typeOfSort,
-			@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+	public String search(@AuthenticationPrincipal User user,
+			@RequestParam(required = false, defaultValue = "") String filter,
+			@RequestParam(required = false, defaultValue = "") String filterValue, Model model) {
 
 		List<Request> requests = null;
 		if (!user.isAdmin()) {
-			typeOfSort = "username";
-			filter = user.getUsername();
+			filter = "username";
+			filterValue = user.getUsername();
 		}
-		if (filter != null && !filter.isEmpty()) {
-			if (typeOfSort.equals("username")) {
-				requests = requestRepo.findByUsername(filter);
-				model.addAttribute("filter", filter);
+		if (filterValue != null && !filterValue.isEmpty()) {
+			if (filter.equals("username")) {
+				requests = requestRepo.findByUsername(filterValue);
+				model.addAttribute("filter", filterValue);
 			}
 		} else
 			requests = requestRepo.findAll();
