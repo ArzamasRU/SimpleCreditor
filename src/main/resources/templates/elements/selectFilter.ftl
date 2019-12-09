@@ -1,12 +1,13 @@
 <select class="custom-select" name="filter">
-    <#if admin = true> 
-    	<option>Username</option>
+    <option value="">Choose filter...</option>
+    <#if admin> 
+    	<option value="username">Username</option>
     </#if>
-    <option>Name</option>
-    <option>Surname</option>
-    <option>UserID</option>
-    <option>Country</option>
-    <option>Term</option>
-    <option>Summ</option>
-    <option>Request time</option>
+    <option value="name">Name</option>
+    <option value="surname">Surname</option>
+    <option value="userId">UserID</option>
+    <option value="country">Country</option>
+    <option value="term">Term (yyyy-mm-dd)</option>
+    <option value="summ">Summ</option>
+    <option value="date">Request time (yyyy-mm-dd)</option>
 </select>

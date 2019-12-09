@@ -16,19 +16,19 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.creditor.controller.MainController;
-import com.example.creditor.init.DataInit;
+import com.example.creditor.repos.RequestRepo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails(value = "user1")
 public class UserActivityTest {
-	@Autowired
-	private MainController controller;
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private RequestRepo requestRepo;
 
 	@Test
 	public void mainPageTest() throws Exception {
@@ -40,24 +40,26 @@ public class UserActivityTest {
 
 	@Test
 	public void requestsListTest() throws Exception {
+		int userInitRequestsQty = requestRepo.findByUsername("user1").size();
 		this.mockMvc.perform(get("/requests"))
 				.andDo(print())
 				.andExpect(authenticated())
-				.andExpect(xpath("//*[@id='requestRow']").nodeCount(DataInit.UserInitRequestsQty))
-				.andExpect(xpath("//*[@id='requestsList']/tr[@data-id='"
-						+ DataInit.UserInitRequestsQty + "']").exists());
+				.andExpect(xpath("//*[@id='requestRow']").nodeCount(userInitRequestsQty))
+				.andExpect(
+						xpath("//*[@id='requestsList']/tr[@data-id='" + userInitRequestsQty + "']")
+								.exists());
 
 		this.mockMvc.perform(
 				multipart("/apply").param("term", "2020-01-01").param("summ", "1000").with(csrf()));
-		DataInit.UserInitRequestsQty++;
+		userInitRequestsQty++;
 
 		this.mockMvc.perform(get("/requests"))
 				.andDo(print())
 				.andExpect(authenticated())
-				.andExpect(xpath("//*[@id='requestRow']").nodeCount(DataInit.UserInitRequestsQty))
-				.andExpect(xpath("//*[@id='requestsList']/tr[@data-id='"
-						+ DataInit.UserInitRequestsQty + "']/td[@id='term']").string("Jan 1, 2020"))
-				.andExpect(xpath("//*[@id='requestsList']/tr[@data-id='"
-						+ DataInit.UserInitRequestsQty + "']/td[@id='summ']").string("1,000"));
+				.andExpect(xpath("//*[@id='requestRow']").nodeCount(userInitRequestsQty))
+				.andExpect(xpath("//*[@id='requestsList']/tr[@data-id='" + userInitRequestsQty
+						+ "']/td[@id='term']").string("Jan 1, 2020"))
+				.andExpect(xpath("//*[@id='requestsList']/tr[@data-id='" + userInitRequestsQty
+						+ "']/td[@id='summ']").string("1,000"));
 	}
 }

@@ -1,6 +1,24 @@
 <#import "elements/environment.ftl" as macros> 
+<#include "elements/securityVars.ftl"> 
 
 <@macros.environment> 
+<form
+	method="get"
+	action="/requests"
+	class="form-inline">
+	<div class="form-group col-md-6 mt-5 mb-5">
+		<#include "elements/selectFilter.ftl">
+		<input
+			type="text"
+			name="filterValue"
+			class="form-control"
+			placeholder="${filterValue!}"/>
+		<button
+			type="submit"
+			class="btn btn-primary ml-2">Search</button>
+	</div>
+</form>
+
 
 <table class="table">
 	<thead class="thead-dark">

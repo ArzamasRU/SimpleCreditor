@@ -16,12 +16,6 @@ import com.example.creditor.repos.UserRepo;
 
 @Component
 public class DataInit implements ApplicationRunner {
-	public static int InitUsersQty;
-	public static int InitAdminsQty;
-	public static int InitRequestsQty;
-	public static int InitLimitsQty;
-	public static int UserInitRequestsQty;
-
 	@Autowired
 	private UserRepo userRepo;
 	@Autowired
@@ -50,10 +44,9 @@ public class DataInit implements ApplicationRunner {
 			userRepo.save(user2);
 			userRepo.save(user3);
 			userRepo.save(user4);
-			InitUsersQty = (int) userRepo.findByAdmin(false).size();
 
-			userRepo.save(new User("admin", "admin", "", "", "Russia", true, false));
-			InitAdminsQty = (int) userRepo.findByAdmin(true).size();
+			User admin = new User("admin", "admin", "", "", "Russia", true, false);
+			userRepo.save(admin);
 
 			requestRepo.save(new Request(user1, dateFormat.parse("2021-12-20"), 1000000d,
 					dateFormat.parse("2019-01-01")));
@@ -61,16 +54,13 @@ public class DataInit implements ApplicationRunner {
 					dateFormat.parse("2019-01-01")));
 			requestRepo.save(new Request(user1, dateFormat.parse("2022-01-08"), 5000000d,
 					dateFormat.parse("2019-01-01")));
-			UserInitRequestsQty = (int) requestRepo.findByUsername(user1.getUsername()).size();
 			requestRepo.save(new Request(user2, dateFormat.parse("2023-06-11"), 900000d,
 					dateFormat.parse("2019-01-01")));
 			requestRepo.save(new Request(user2, dateFormat.parse("2024-12-22"), 300000d,
 					dateFormat.parse("2019-01-01")));
-			InitRequestsQty = (int) requestRepo.count();
 
 			countryLimitRepo.save(new CountryLimit("Japan", 2));
 			countryLimitRepo.save(new CountryLimit("China", 0));
-			InitLimitsQty = (int) countryLimitRepo.count();
 		}
 
 	}
